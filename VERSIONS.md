@@ -26,7 +26,7 @@
       <td><a href="https://github.com/miniconnect/miniconnect/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
       <td><a href="https://github.com/miniconnect/miniconnect-client/blob/master/CHANGELOG.md#version-010">0.1.0</a></td>
       <td><a href="https://github.com/miniconnect/minibase/blob/master/CHANGELOG.md#version-010">0.1.0</a></td>
-      <td><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
+      <td><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-041">0.4.1</a></td>
     </tr>
     <tr>
       <td rowspan="3">---</td>
