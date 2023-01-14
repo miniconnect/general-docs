@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="10.8cm" height="6.95cm" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+  <rect x="50%" y="20" width="140" height="30" rx="10" transform="translate(-70, 0)" stroke-width="2" stroke="#333322" fill="#EEEEEE" />
+  <text x="50%" y="40" text-anchor="middle" font-family="Tahoma, FreeSans, sans-serif" font-size="10pt" fill="#333322">miniconnect</text>
+  
+  <rect x="50%" y="70" width="140" height="30" rx="10" transform="translate(-70, 0)" stroke-width="2" stroke="#333322" fill="#EEEEEE" />
+  <text x="50%" y="90" text-anchor="middle" font-family="Tahoma, FreeSans, sans-serif" font-size="10pt" fill="#333322">miniconnect</text>
+  
+  <rect x="25%" y="130" width="140" height="30" rx="10" transform="translate(-70, 0)" stroke-width="2" stroke="#333322" fill="#EEEEEE" />
+  <text x="25%" y="150" text-anchor="middle" font-family="Tahoma, FreeSans, sans-serif" font-size="10pt" fill="#333322">miniconnect-client</text>
+  
+  <rect x="75%" y="130" width="140" height="30" rx="10" transform="translate(-70, 0)" stroke-width="2" stroke="#333322" fill="#EEEEEE" />
+  <text x="75%" y="150" text-anchor="middle" font-family="Tahoma, FreeSans, sans-serif" font-size="10pt" fill="#333322">minibase</text>
+
+  <rect x="75%" y="180" width="140" height="30" rx="10" transform="translate(-70, 0)" stroke-width="2" stroke="#333322" fill="#EEEEEE" />
+  <text x="75%" y="200" text-anchor="middle" font-family="Tahoma, FreeSans, sans-serif" font-size="10pt" fill="#333322">holodb</text>
+  
+</svg>
