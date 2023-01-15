@@ -20,6 +20,11 @@ for projectName in $projectNames; do
         if [ -n "$gitChangedFiles" ]; then
             echo "${ansiError}Uncommitted changes in: ${projectName}${ansiReset}"
         fi
+        pushedHash="$( git rev-parse '@{push}' )"
+        headHash="$( git rev-parse 'HEAD' )"
+        if [ "${pushedHash}" != "${headHash}" ]; then
+            echo "${ansiError}Unpushed commits in: ${projectName}${ansiReset}"
+        fi
     fi
     
     if [ -f 'gradlew' ]; then
