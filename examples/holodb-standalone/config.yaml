@@ -36,6 +36,7 @@ schemas:
           - name: birth_year
             type: java.lang.Integer
             valuesRange: [1950, 2000]
+            shuffleQuality: VERY_HIGH
           - name: birth_country
             valuesBundle: countries
       - name: sales
@@ -46,6 +47,7 @@ schemas:
             mode: COUNTER
           - name: company_id
             valuesForeignColumn: [companies, id]
+            shuffleQuality: LOW
           - name: product
             valuesBundle: fruits
           - name: color
@@ -53,6 +55,7 @@ schemas:
           - name: quantity
             type: java.lang.Integer
             valuesRange: [100, 500]
+            shuffleQuality: VERY_HIGH
           - name: quality
             mode: ENUM
             values:

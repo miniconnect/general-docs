@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t miniconnect/holodb-example-simple "$( dirname "$0" )"
+docker build -t miniconnect/holodb-example-standalone "$( dirname "$0" )"
