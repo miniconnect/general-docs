@@ -16,6 +16,10 @@ for projectName in $projectNames; do
         rm -Rf ./projects/*/bin
         ./gradlew clean build
         ./gradlew -p . publishToMavenLocal -x signMavenJavaPublication --warning-mode none
+        
+        if ./gradlew tasks | egrep '\bjibDockerBuild\b' -q; then
+            ./gradlew jibDockerBuild
+        fi
     fi
 done
 
