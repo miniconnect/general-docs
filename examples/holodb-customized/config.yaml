@@ -1,0 +1,14 @@
+seed: 98765
+schemas:
+  - name: customized
+    tables:
+      - name: items
+        writeable: true
+        size: 50
+        columns:
+          - name: id
+            mode: COUNTER
+          - name: code
+            sourceFactory: hu.webarticum.miniconnect.globaldocs.examples.holodbcustomized.ItemCodeSourceFactory
+            sourceFactoryData:
+              length: 10

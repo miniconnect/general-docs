@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+description "Customized HoloDB example"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation "hu.webarticum.holodb:spi:0.4.2-SNAPSHOT"
+}
