@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#----------
+# Builds and releases projects, publishes them to online repositories.
+# (check-release.sh should be run first to check if everything is OK)
+#----------
+
+
 startDir=`pwd`
 
 selfDir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"

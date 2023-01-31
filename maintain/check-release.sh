@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#----------
+# Checks projects' state to see if they are ready for release.
+#----------
+
 startDir=`pwd`
 
 selfDir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -18,12 +22,12 @@ for projectName in $projectNames; do
     if [ -d '.git' ]; then
         gitChangedFiles="$( git diff --name-only; git diff --staged --name-only; )"
         if [ -n "$gitChangedFiles" ]; then
-            echo "${ansiError}Uncommitted changes in: ${projectName}${ansiReset}"
+            echo "${ansiError}${projectName}: Uncommitted changes${ansiReset}"
         fi
         pushedHash="$( git rev-parse '@{push}' )"
         headHash="$( git rev-parse 'HEAD' )"
         if [ "${pushedHash}" != "${headHash}" ]; then
-            echo "${ansiError}Unpushed commits in: ${projectName}${ansiReset}"
+            echo "${ansiError}${projectName}: Unpushed commits${ansiReset}"
         fi
     fi
     
@@ -34,13 +38,18 @@ for projectName in $projectNames; do
                 subprojectName="$( echo "${dependencyTask}" | sed -E 's/:.*$//' )"
                 snapshotDependencies="$( ./gradlew "${dependencyTask}" --quiet --console=plain | egrep '^\W+ [^ :]+:[^ :]+:[^ :\-]+\-SNAPSHOT' | sed -E 's/^\W+ //' | sed -E 's/ .*$//' | sort -u )"
                 if [ -n "$snapshotDependencies" ]; then
-                    echo "${ansiError}SNAPSHOT dependencies in: ${projectName}:${subprojectName}${ansiReset}"
+                    echo "${ansiError}${projectName}: SNAPSHOT dependencies (${subprojectName})${ansiReset}"
                 fi
             done
         else
-            echo "${ansiError}Failed build in: ${projectName}${ansiReset}"
+            echo "${ansiError}${projectName}: Failed build${ansiReset}"
         fi
     fi
+    
+    if egrep '^\s*FROM\s+\S+-SNAPSHOT(\s|$)' -q -R . --include='Dockerfile'; then
+        echo "${ansiError}${projectName}: Some Dockerfile contains SNAPSHOT FROM${ansiReset}"
+    fi
+    
 done
 
 cd "${startDir}"

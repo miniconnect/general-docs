@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#----------
+# Rebuilds projects and publishes their artifacts locally.
+#----------
+
+
 startDir=`pwd`
 
 selfDir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
