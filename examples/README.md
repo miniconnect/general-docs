@@ -13,3 +13,9 @@ HoloDB docker project with dynamic configuration.
 Some datas are downloaded from [WikiData](https://www.wikidata.org).
 
 [Show directory](holodb-wikidata)
+
+## HoloDB customized
+
+HoloDB docker project with some integrated custom java code.
+
+[Show directory](holodb-customized)
