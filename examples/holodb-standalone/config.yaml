@@ -63,6 +63,7 @@ schemas:
               - AVERAGE
               - GOOD
               - EXCELLENT
+            defaultValue: AVERAGE
           - name: comment
             nullCount: 20
             valuesDynamicPattern: '(Lorem|Dolor|Amet)( (lorem|ipsum|dolor|sit|amet|consectetur|adipisicing)){2,6}\.'
