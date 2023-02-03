@@ -1,11 +1,14 @@
 seed: 2346237
+tableDefaults:
+  writeable: true
 columnDefaults:
   shuffleQuality: VERY_HIGH
 schemas:
   - name: economy
     tables:
       - name: companies
-        writeable: true
+        columnDefaults:
+          shuffleQuality: MEDIUM
         size: 5
         columns:
           - name: id
@@ -24,7 +27,6 @@ schemas:
             nullCount: 2
             valuesPattern: '\+1 \d{3}-\d{3}-\d{4}'
       - name: employees
-        writeable: true
         size: 100
         columns:
           - name: id
@@ -42,7 +44,6 @@ schemas:
           - name: birth_country
             valuesBundle: countries
       - name: sales
-        writeable: true
         size: 50
         columns:
           - name: id
