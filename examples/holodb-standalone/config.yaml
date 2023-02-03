@@ -2,6 +2,7 @@ seed: 2346237
 tableDefaults:
   writeable: true
 columnDefaults:
+  distributionQuality: HIGH
   shuffleQuality: VERY_HIGH
 schemas:
   - name: economy
