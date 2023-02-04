@@ -19,3 +19,9 @@ Some datas are downloaded from [WikiData](https://www.wikidata.org).
 HoloDB docker project with some integrated custom java code.
 
 [Show directory](holodb-customized)
+
+## HoloDB embeddedd
+
+Micronaut project using HoloDB as an embedded database (loads HoloDB configuration file at startup).
+
+[Show directory](holodb-embedded)

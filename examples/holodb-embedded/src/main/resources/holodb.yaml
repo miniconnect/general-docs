@@ -1,0 +1,10 @@
+seed: 1234
+schemas:
+  - name: sch
+    tables:
+      - name: tbl
+        size: 20
+        columns:
+          - name: col
+            type: java.lang.String
+            valuesPattern: '[A-Z]{3}\-\d{3}'

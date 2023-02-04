@@ -1,0 +1,49 @@
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'eclipse'
+    id 'io.micronaut.application' version '3.2.2'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+description "HoloDB embedded demo"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'hu.webarticum.holodb:embedded:0.4.2-SNAPSHOT'
+    
+    /*
+    implementation 'io.micronaut:micronaut-http-client'
+    implementation 'io.micronaut:micronaut-jackson-databind'
+    implementation 'io.micronaut:micronaut-validation'*/
+    implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
+    implementation 'jakarta.annotation:jakarta.annotation-api'
+    implementation 'info.picocli:picocli'
+    implementation 'io.micronaut.picocli:micronaut-picocli:4.2.1'
+    
+    //runtimeOnly 'io.micronaut.configuration:micronaut-jdbc-hikari'
+    
+    annotationProcessor 'io.micronaut.data:micronaut-data-processor'
+    annotationProcessor 'io.micronaut:micronaut-http-validation'
+}
+
+application {
+    mainClass = "hu.webarticum.miniconnect.generaldocs.examples.holodbembedded.Application"
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    version '3.2.2'
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+}
