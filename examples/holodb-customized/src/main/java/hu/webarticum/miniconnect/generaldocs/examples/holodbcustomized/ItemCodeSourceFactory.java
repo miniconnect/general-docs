@@ -1,4 +1,4 @@
-package hu.webarticum.miniconnect.globaldocs.examples.holodbcustomized;
+package hu.webarticum.miniconnect.generaldocs.examples.holodbcustomized;
 
 import java.util.ArrayList;
 import java.util.List;

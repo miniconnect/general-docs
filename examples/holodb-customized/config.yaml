@@ -9,6 +9,6 @@ schemas:
           - name: id
             mode: COUNTER
           - name: code
-            sourceFactory: hu.webarticum.miniconnect.globaldocs.examples.holodbcustomized.ItemCodeSourceFactory
+            sourceFactory: hu.webarticum.miniconnect.generaldocs.examples.holodbcustomized.ItemCodeSourceFactory
             sourceFactoryData:
               length: 10
