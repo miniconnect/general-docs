@@ -1,0 +1,18 @@
+micronaut:
+  application:
+    name: demo
+netty:
+  default:
+    allocator:
+      max-order: 3
+datasources:
+  default:
+    url: 'jdbc:holodb:jpa:///jpa_example'
+    username: ''
+    password: ''
+    driverClassName: 'hu.webarticum.holodb.jpa.JpaMetamodelDriver'
+jpa:
+  default:
+    properties:
+      hibernate:
+        show_sql: false
