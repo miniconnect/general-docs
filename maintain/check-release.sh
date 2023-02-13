@@ -12,6 +12,7 @@ rootDir="${selfDir}/../.."
 projectNames="$( cat "${selfDir}/repositories.txt" )"
 
 ansiError="$( printf '\e[1;31m' )"
+ansiWarning="$( printf '\e[1;33m' )"
 ansiReset="$( printf '\e[0m' )"
 
 for projectName in $projectNames; do
@@ -34,13 +35,21 @@ for projectName in $projectNames; do
     if [ -f 'gradlew' ]; then
         if ./gradlew clean build --quiet >/dev/null 2>/dev/null; then
             dependencyTasks="$( ./gradlew tasks --all --quiet --console=plain | egrep '^[^> :]+:dependencies\b' | sed 's/ .*$//' )"
+            subprojectsWithSnapshot=''
             for dependencyTask in $dependencyTasks; do
                 subprojectName="$( echo "${dependencyTask}" | sed -E 's/:.*$//' )"
                 snapshotDependencies="$( ./gradlew "${dependencyTask}" --quiet --console=plain | egrep '^\W+ [^ :]+:[^ :]+:[^ :\-]+\-SNAPSHOT' | sed -E 's/^\W+ //' | sed -E 's/ .*$//' | sort -u )"
                 if [ -n "$snapshotDependencies" ]; then
-                    echo "${ansiError}${projectName}: SNAPSHOT dependencies (${subprojectName})${ansiReset}"
+                    if [ -z "$subprojectsWithSnapshot" ]; then
+                        subprojectsWithSnapshot="$subprojectName"
+                    else
+                        subprojectsWithSnapshot="${subprojectsWithSnapshot}, ${subprojectName}"
+                    fi
                 fi
             done
+            if [ -n "$subprojectsWithSnapshot" ]; then
+                echo "${ansiWarning}${projectName}: SNAPSHOT dependencies ($subprojectsWithSnapshot)${ansiReset}"
+            fi
         else
             echo "${ansiError}${projectName}: Failed build${ansiReset}"
         fi
