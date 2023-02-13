@@ -51,7 +51,7 @@ for projectName in $projectNames; do
                 echo "${ansiWarning}${projectName}: SNAPSHOT dependencies ($subprojectsWithSnapshot)${ansiReset}"
             fi
         else
-            echo "${ansiError}${projectName}: Failed build${ansiReset}"
+            echo "${ansiError}${projectName}: Failed gradle build${ansiReset}"
         fi
     fi
     
@@ -59,6 +59,27 @@ for projectName in $projectNames; do
         echo "${ansiError}${projectName}: Some Dockerfile contains SNAPSHOT FROM${ansiReset}"
     fi
     
+done
+
+exampleRootPath='general-docs/examples/'
+for examplePath in "${exampleRootPath}"*; do
+    exampleDirectory="${rootDir}/${examplePath}"
+    
+    if [ -d "$exampleDirectory" ]; then
+        exampleName="$( basename "$exampleDirectory" )"
+        
+        cd "$exampleDirectory"
+        
+        if [ -f "${exampleDirectory}/build.sh" ]; then
+            if ! ./build.sh >/dev/null 2>/dev/null; then
+                echo "${ansiError}${exampleRootPath}${exampleName}: Failed custom build${ansiReset}"
+            fi
+        elif [ -f "${exampleDirectory}/gradlew" ]; then
+            if ! ./gradlew clean build --quiet >/dev/null 2>/dev/null; then
+                echo "${ansiError}${exampleRootPath}${exampleName}: Failed gradle build${ansiReset}"
+            fi
+        fi
+    fi
 done
 
 cd "${startDir}"

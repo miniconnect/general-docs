@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 startDir="$( pwd )"
 cd "$( dirname "$0" )"
 ./gradlew build
