@@ -24,11 +24,18 @@ for projectName in $projectNames; do
     echo -n "${ansiBold}${projectName}${ansiReset} ... ";
     
     gitStatusOutput="$( git status --porcelain=v1 )"
+    
+    headHash="$( git rev-parse 'HEAD' )"
+    pushedHash="$( git rev-parse '@{push}' )"
+    if [ "${pushedHash}" != "${headHash}" ]; then
+        gitUnpushedOutput="Unpushed commits (HEAD(${headHash}) != "'@{push}'"(${pushedHash}))"
+    fi
+    
     if [ -f ./gradlew ]; then
         gradleCheckOutput="$( ./gradlew --quiet --console=plain check 2>&1 )"
     fi
     
-    if [ -z "${gitStatusOutput}" ] && [ -z "${gradleCheckOutput}" ]; then
+    if [ -z "${gitStatusOutput}" ] && [ -z "${gradleCheckOutput}" ] && [ -z "${gitUnpushedOutput}" ]; then
         echo "${ansiSuccess}OK${ansiReset}"
     else
         echo "${ansiError}FAILED${ansiReset}"
@@ -37,6 +44,12 @@ for projectName in $projectNames; do
     if [ -n "${gitStatusOutput}" ]; then
         echo "    ${ansiError}Git status output:${ansiReset}"
         echo "${gitStatusOutput}" | sed -E 's/^/        /'
+        echo
+    fi
+    
+    if [ -n "${gitUnpushedOutput}" ]; then
+        echo "    ${ansiError}Git upstream output:${ansiReset}"
+        echo "${gitUnpushedOutput}" | sed -E 's/^/        /'
         echo
     fi
     
