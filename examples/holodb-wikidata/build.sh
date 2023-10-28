@@ -2,4 +2,7 @@
 
 set -e
 
-docker build -t miniconnect/holodb-example-wikidata "$( dirname "$0" )"
+selfDir="$( dirname -- "$( realpath "$0" )" )"
+name="$( cat "${selfDir}/name.txt" )"
+
+docker build -t miniconnect/"${name}" "${selfDir}"
