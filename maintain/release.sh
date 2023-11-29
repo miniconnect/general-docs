@@ -8,7 +8,7 @@
 
 startDir=`pwd`
 
-selfDir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+selfDir="$( dirname -- "$( realpath "$0" )" )"
 rootDir="${selfDir}/../.."
 
 projectNames="$( cat "${selfDir}/repositories.txt" )"
