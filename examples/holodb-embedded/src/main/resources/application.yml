@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: demo
+    name: holodb-embedded-demo
 netty:
   default:
     allocator:

@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: demo
+    name: holodb-jpa-demo
 netty:
   default:
     allocator:
