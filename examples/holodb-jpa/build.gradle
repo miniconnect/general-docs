@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'hu.webarticum.holodb:jpa:0.4.2-SNAPSHOT'
+    implementation 'hu.webarticum.holodb:jpa:0.4.1'
     
     implementation 'io.micronaut:micronaut-http-client'
     implementation 'io.micronaut:micronaut-jackson-databind'
