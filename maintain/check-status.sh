@@ -25,12 +25,14 @@ for projectName in $projectNames; do
     
     gitStatusOutput="$( git status --porcelain=v1 )"
     
+    gitUnpushedOutput=''
     headHash="$( git rev-parse 'HEAD' )"
     pushedHash="$( git rev-parse '@{push}' )"
     if [ "${pushedHash}" != "${headHash}" ]; then
         gitUnpushedOutput="Unpushed commits (HEAD(${headHash}) != "'@{push}'"(${pushedHash}))"
     fi
     
+    gradleCheckOutput=''
     if [ -f ./gradlew ]; then
         gradleCheckOutput="$( ./gradlew --quiet --console=plain check 2>&1 )"
     fi
