@@ -57,11 +57,11 @@ for projectName in $projectNames; do
             report="${report}${ansiWarning}${prefix}$( printf "${messageFormat}" '- - -' 'Sonatype publish' 'SKIPPED' )${ansiReset}${nl}"
         fi
         
-        buildDebTasks="$( ./gradlew tasks --all --quiet --console=plain | egrep '^[^> :]+:buildDeb\b' | sed 's/ .*$//' )"
-        for buildDebTask in $buildDebTasks; do
-            subprojectName="$( echo "${buildDebTask}" | sed -E 's/:.*$//' )"
+        debTasks="$( ./gradlew tasks --all --quiet --console=plain | egrep '^[^> :]+:buildDebPackage\b' | sed 's/ .*$//' )"
+        for debTask in $debTasks; do
+            subprojectName="$( echo "${debTask}" | sed -E 's/:.*$//' )"
             if [ -n "${buildStatusOk}" ]; then
-                if ./gradlew "${buildDebTask}"; then
+                if ./gradlew "${debTask}"; then
                     report="${report}${ansiSuccess}${prefix}$( printf "${messageFormat}" "${subprojectName}" 'Deb package build' 'SUCCESS' )${ansiReset}${nl}"
                 else
                     report="${report}${ansiError}${prefix}$( printf "${messageFormat}" "${subprojectName}" 'Deb package build' 'FAILED' )${ansiReset}${nl}"
