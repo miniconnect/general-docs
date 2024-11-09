@@ -20,7 +20,7 @@ for projectName in $projectNames; do
     if [ -f 'gradlew' ]; then
         rm -Rf ./projects/*/bin
         ./gradlew clean build
-        ./gradlew -p . publishToMavenLocal -x signMavenJavaPublication --warning-mode none
+        ./gradlew -p . publishToMavenLocal --warning-mode none
         
         if ./gradlew tasks | egrep '\bjibDockerBuild\b' -q; then
             ./gradlew jibDockerBuild
