@@ -32,4 +32,4 @@ It loads the specified HoloDB configuration file at startup.
 Micronaut JPA application using HoloDB as an embedded database.
 The database is created on-the-fly from jpa entities (optionally annotated with HoloDB specific annotations).
 
-[Show directory](holodb-embedded)
+[Show directory](holodb-jpa)
