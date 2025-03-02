@@ -1,0 +1,15 @@
+import java.nio.file.Files
+
+def parentDir = rootDir.parentFile
+def reposDir = parentDir.parentFile.parentFile
+
+def repositoriesFile = new File(parentDir, "repositories.txt")
+
+repositoriesFile.text.trim().split(' ').each { repoName ->
+    def repoPath = new File(reposDir, repoName)
+    def repoGradlew = new File(repoPath, "gradlew")
+    if (repoGradlew.exists()) {
+        includeBuild(repoPath.absolutePath)
+    }
+}
+
