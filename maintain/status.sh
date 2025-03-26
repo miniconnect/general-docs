@@ -1,5 +1,4 @@
 #!/bin/sh
-# shellcheck disable=SC2016
 
 #----------
 # Checks projects' basic status informations quickly.
