@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 #----------
 # Checks projects' state to see if they are ready for release.
 #----------
 
-startDir=`pwd`
+startDir="$( pwd )"
 
 selfDir="$( dirname -- "$( realpath "$0" )" )"
 rootDir="${selfDir}/../.."
@@ -18,7 +18,10 @@ ansiReset="$( printf '\e[0m' )"
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
     
-    cd "${projectDirectory}"
+    cd "${projectDirectory}" || {
+            echo "Failed to cd to projectDirectory=${projectDirectory}"
+            exit 1
+        }
     
     if [ -d '.git' ]; then
         gitChangedFiles="$( git diff --name-only; git diff --staged --name-only; )"
@@ -34,11 +37,11 @@ for projectName in $projectNames; do
     
     if [ -f 'gradlew' ]; then
         if ./gradlew clean build --quiet >/dev/null 2>/dev/null; then
-            dependencyTasks="$( ./gradlew tasks --all --quiet --console=plain | egrep '^[^> :]+:dependencies\b' | sed 's/ .*$//' )"
+            dependencyTasks="$( ./gradlew tasks --all --quiet --console=plain | grep -E '^[^> :]+:dependencies\b' | sed 's/ .*$//' )"
             subprojectsWithSnapshot=''
             for dependencyTask in $dependencyTasks; do
                 subprojectName="$( echo "${dependencyTask}" | sed -E 's/:.*$//' )"
-                snapshotDependencies="$( ./gradlew "${dependencyTask}" --quiet --console=plain | egrep '^\W+ [^ :]+:[^ :]+:[^ :\-]+\-SNAPSHOT' | sed -E 's/^\W+ //' | sed -E 's/ .*$//' | sort -u )"
+                snapshotDependencies="$( ./gradlew "${dependencyTask}" --quiet --console=plain | grep -E '^\W+ [^ :]+:[^ :]+:[^ :\-]+\-SNAPSHOT' | sed -E 's/^\W+ //' | sed -E 's/ .*$//' | sort -u )"
                 if [ -n "$snapshotDependencies" ]; then
                     if [ -z "$subprojectsWithSnapshot" ]; then
                         subprojectsWithSnapshot="$subprojectName"
@@ -55,7 +58,7 @@ for projectName in $projectNames; do
         fi
     fi
     
-    if egrep '^\s*FROM\s+\S+-SNAPSHOT(\s|$)' -q -R . --include='Dockerfile'; then
+    if grep -E '^\s*FROM\s+\S+-SNAPSHOT(\s|$)' -q -R . --include='Dockerfile'; then
         echo "${ansiError}${projectName}: Some Dockerfile contains SNAPSHOT FROM${ansiReset}"
     fi
     
@@ -68,7 +71,10 @@ for examplePath in "${exampleRootPath}"*; do
     if [ -d "$exampleDirectory" ]; then
         exampleName="$( basename "$exampleDirectory" )"
         
-        cd "$exampleDirectory"
+        cd "$exampleDirectory" || {
+            echo "Failed to cd to exampleDirectory=${exampleDirectory}"
+            exit 1
+        }
         
         if [ -f "${exampleDirectory}/build.sh" ]; then
             if ! ./build.sh >/dev/null 2>/dev/null; then
@@ -82,4 +88,7 @@ for examplePath in "${exampleRootPath}"*; do
     fi
 done
 
-cd "${startDir}"
+cd "${startDir}" || {
+    echo "Failed to cd to startDir=${startDir}"
+    exit 1
+}

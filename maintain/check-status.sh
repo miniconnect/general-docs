@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+# shellcheck disable=SC2016
 
 #----------
 # Checks projects' basic status informations quickly.
 #----------
 
-startDir=`pwd`
+startDir="$( pwd )"
 
 selfDir="$( dirname -- "$( realpath "$0" )" )"
 rootDir="${selfDir}/../.."
@@ -19,10 +20,13 @@ ansiReset="$( printf '\e[0m' )"
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
     
-    cd "${projectDirectory}"
+    cd "${projectDirectory}" || {
+        echo "Failed to cd to projectDirectory=${projectDirectory}"
+        exit 1
+    }
     
-    echo -n "${ansiBold}${projectName}${ansiReset} ... ";
-    
+    printf '%s%s%s ... ' "$ansiBold" "$projectName" "$ansiReset"
+
     gitStatusOutput="$( git status --porcelain=v1 )"
     
     gitUnpushedOutput=''
@@ -36,6 +40,7 @@ for projectName in $projectNames; do
     if [ -f ./gradlew ]; then
         gradleCheckOutput="$( ./gradlew --quiet --console=plain check 2>&1 )"
     fi
+    
     
     if [ -z "${gitStatusOutput}" ] && [ -z "${gradleCheckOutput}" ] && [ -z "${gitUnpushedOutput}" ]; then
         echo "${ansiSuccess}OK${ansiReset}"
@@ -60,7 +65,9 @@ for projectName in $projectNames; do
         echo "${gradleCheckOutput}" | sed -E 's/^/        /'
         echo
     fi
-    
 done
 
-cd "${startDir}"
+cd "${startDir}" || {
+    echo "Failed to cd to startDir=${startDir}"
+    exit 1
+}

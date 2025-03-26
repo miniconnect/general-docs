@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+# shellcheck disable=SC2059
 
 #----------
 # Builds and releases projects, publishes them to online repositories.
@@ -6,7 +7,7 @@
 #----------
 
 
-startDir=`pwd`
+startDir="$( pwd )"
 
 selfDir="$( dirname -- "$( realpath "$0" )" )"
 rootDir="${selfDir}/../.."
@@ -26,7 +27,10 @@ report=''
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
     
-    cd "${projectDirectory}"
+    cd "${projectDirectory}" || {
+        echo "Failed to cd to projectDirectory=${projectDirectory}"
+        exit 1
+    }
     
     if [ -f 'gradlew' ]; then
         version="$( ./gradlew printVersion --quiet --console=plain )"
@@ -57,7 +61,7 @@ for projectName in $projectNames; do
             report="${report}${ansiWarning}${prefix}$( printf "${messageFormat}" '- - -' 'Sonatype publish' 'SKIPPED' )${ansiReset}${nl}"
         fi
         
-        debTasks="$( ./gradlew tasks --all --quiet --console=plain | egrep '^[^> :]+:buildDebPackage\b' | sed 's/ .*$//' )"
+        debTasks="$( ./gradlew tasks --all --quiet --console=plain | grep -E '^[^> :]+:buildDebPackage\b' | sed 's/ .*$//' )"
         for debTask in $debTasks; do
             subprojectName="$( echo "${debTask}" | sed -E 's/:.*$//' )"
             if [ -n "${buildStatusOk}" ]; then
@@ -74,10 +78,13 @@ for projectName in $projectNames; do
     fi
 done
 
-cd "${startDir}"
-
 echo
 echo "-------------------------------------------------------"
 echo
 
 echo "${report}"
+
+cd "${startDir}" || {
+    echo "Failed to cd to startDir=${startDir}"
+    exit 1
+}

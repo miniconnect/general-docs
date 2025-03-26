@@ -1,17 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
-startDir=`pwd`
+#----------
+# Starts an instant demo on the holodb-standalone example using splitted window.
+#----------
+
+startDir="$( pwd )"
 
 selfDir="$( dirname -- "$( realpath "$0" )" )"
-rootDir="${selfDir}/../.."
+rootDir="$( realpath "${selfDir}/../.." )"
 
-cd "${rootDir}/holodb"
+holodbDir="${rootDir}/holodb"
+cd "$holodbDir" || {
+    echo "Failed to cd to holodbDir=${holodbDir}"
+    exit 1
+}
 
 ./gradlew app:jibDockerBuild
 
-cd "${rootDir}/general-docs/examples/holodb-standalone"
-
-name="$( cat name.txt )"
+exampleDir="${rootDir}/general-docs/examples/holodb-standalone"
+cd "$exampleDir" || {
+    echo "Failed to cd to holodbDir=${exampleDir}"
+    exit 1
+}
 
 ./kill.sh && ./build.sh && ./start.sh
 
@@ -24,4 +34,7 @@ tmux \
 
 ./kill.sh
 
-cd "${startDir}"
+cd "${startDir}" || {
+    echo "Failed to cd to startDir=${startDir}"
+    exit 1
+}
