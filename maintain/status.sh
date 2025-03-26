@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2016
 
 #----------
 # Checks projects' basic status informations quickly.
@@ -40,8 +41,16 @@ for projectName in $projectNames; do
         gradleCheckOutput="$( ./gradlew --quiet --console=plain check 2>&1 )"
     fi
     
+    shellcheckOutput=''
+    shellcheckFiles="$( git ls-files --exclude-standard '*.sh' -z | xargs -0 awk 'FNR==1 { if ($0 == "#!/bin/sh") print FILENAME }' )"
+    if [ -n "${shellcheckFiles}" ]; then
+        shellcheckOutput="$( echo "$shellcheckFiles" | while IFS= read -r line; do
+            shellcheck "$line"
+        done )"
+    fi
     
-    if [ -z "${gitStatusOutput}" ] && [ -z "${gradleCheckOutput}" ] && [ -z "${gitUnpushedOutput}" ]; then
+    
+    if [ -z "${gitStatusOutput}" ] && [ -z "${gradleCheckOutput}" ] && [ -z "${gitUnpushedOutput}" ] && [ -z "${shellcheckOutput}" ]; then
         echo "${ansiSuccess}OK${ansiReset}"
     else
         echo "${ansiError}FAILED${ansiReset}"
@@ -62,6 +71,12 @@ for projectName in $projectNames; do
     if [ -n "${gradleCheckOutput}" ]; then
         echo "    ${ansiError}Gradle check output:${ansiReset}"
         echo "${gradleCheckOutput}" | sed -E 's/^/        /'
+        echo
+    fi
+    
+    if [ -n "${shellcheckOutput}" ]; then
+        echo "    ${ansiError}Shellcheck output:${ansiReset}"
+        echo "${shellcheckOutput}" | sed -E 's/^/        /'
         echo
     fi
 done
