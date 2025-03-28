@@ -2,7 +2,7 @@
 
 set -e
 
-selfDir="$( dirname -- "$( realpath "$0" )" )"
+selfDir="$( dirname -- "$( realpath -- "$0" )" )"
 name="$( cat "${selfDir}/name.txt" )"
 
 docker rm -f "${name}" > /dev/null 2>&1

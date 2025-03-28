@@ -6,8 +6,8 @@
 
 startDir="$( pwd )"
 
-selfDir="$( dirname -- "$( realpath "$0" )" )"
-rootDir="$( realpath "${selfDir}/../.." )"
+selfDir="$( dirname -- "$( realpath -- "$0" )" )"
+rootDir="$( realpath -- "${selfDir}/../.." )"
 
 holodbDir="${rootDir}/holodb"
 cd "$holodbDir" || {

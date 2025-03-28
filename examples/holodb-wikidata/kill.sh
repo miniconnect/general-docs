@@ -2,7 +2,7 @@
 
 set -e
 
-selfDir="$( dirname -- "$( realpath "$0" )" )"
+selfDir="$( dirname -- "$( realpath -- "$0" )" )"
 name="$( cat "${selfDir}/name.txt" )"
 
 docker ps --filter "ancestor=miniconnect/${name}:latest" --format='{{.ID}}' --no-trunc | \

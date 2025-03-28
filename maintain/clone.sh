@@ -10,7 +10,7 @@ urlSuffix='.git'
 
 startDir="$( pwd )"
 
-selfDir="$( dirname -- "$( realpath "$0" )" )"
+selfDir="$( dirname -- "$( realpath -- "$0" )" )"
 rootDir="${selfDir}/../.."
 
 cd "${rootDir}" || {
