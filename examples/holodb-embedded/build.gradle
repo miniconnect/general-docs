@@ -1,13 +1,16 @@
 plugins {
     id 'java-library'
     id 'application'
-    id 'io.micronaut.application' version '3.2.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'io.micronaut.application' version '3.7.10'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+description = "HoloDB embedded demo"
 
-description "HoloDB embedded demo"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
@@ -15,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'hu.webarticum.holodb:embedded:0.6.0'
+    implementation 'hu.webarticum.holodb:embedded:0.6.1-SNAPSHOT'
     
     /*
     implementation 'io.micronaut:micronaut-http-client'
@@ -33,16 +36,14 @@ dependencies {
 }
 
 application {
-    mainClass = "hu.webarticum.miniconnect.generaldocs.examples.holodbembedded.Application"
+    mainClass = 'hu.webarticum.miniconnect.generaldocs.examples.holodbembedded.Application'
 }
 
-graalvmNative.toolchainDetection = false
 micronaut {
-    version '3.2.2'
     runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("com.example.*")
+        annotations("hu.webarticum.miniconnect.generaldocs.examples.holodbembedded.*")
     }
 }

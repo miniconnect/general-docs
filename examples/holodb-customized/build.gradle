@@ -2,10 +2,12 @@ plugins {
     id 'java-library'
 }
 
-description "Customized HoloDB example"
+description = "Customized HoloDB example"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
@@ -13,5 +15,5 @@ repositories {
 }
 
 dependencies {
-    implementation "hu.webarticum.holodb:spi:0.6.0"
+    implementation "hu.webarticum.holodb:spi:0.6.1-SNAPSHOT"
 }
