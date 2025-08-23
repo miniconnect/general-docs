@@ -1,8 +1,7 @@
 #!/bin/sh
-# shellcheck disable=SC2016
 
 #----------
-# Checks projects' basic status informations quickly.
+# Show project versions.
 #----------
 
 startDir="$( pwd )"
@@ -37,7 +36,7 @@ for projectName in $projectNames; do
             projectVersionFormat="$ansiStable" ;;
     esac
     
-    printf '%s%-25s%s%s%-20s%s\n' "$ansiBold" "$projectName" "$ansiReset" "$projectVersionFormat" "$projectVersion" "$ansiReset"
+    printf '%s%-25s%s%s%-20s%s\n' "$ansiName" "$projectName" "$ansiReset" "$projectVersionFormat" "$projectVersion" "$ansiReset"
 done
 
 cd "${startDir}" || {
