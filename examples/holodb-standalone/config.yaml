@@ -2,20 +2,20 @@ seed: 2346237
 tableDefaults:
   writeable: true
 columnDefaults:
-  distributionQuality: HIGH
-  shuffleQuality: VERY_HIGH
+  distributionQuality: high
+  shuffleQuality: very_high
 schemas:
   - name: economy
     tables:
       - name: companies
         columnDefaults:
-          shuffleQuality: MEDIUM
+          shuffleQuality: medium
         size: 5
         columns:
           - name: id
-            mode: COUNTER
+            mode: counter
           - name: name
-            mode: FIXED
+            mode: fixed
             values:
               - Fav Fruits Inc.
               - Fru-fru Sales Inc.
@@ -31,10 +31,10 @@ schemas:
         size: 100
         columns:
           - name: id
-            mode: COUNTER
+            mode: counter
           - name: company_id
-            valuesForeignColumn: [companies, id]
-            shuffleQuality: LOW
+            valuesForeignColumn: [ companies, id ]
+            shuffleQuality: low
           - name: firstname
             valuesBundle: forenames
           - name: lastname
@@ -48,10 +48,10 @@ schemas:
         size: 50
         columns:
           - name: id
-            mode: COUNTER
+            mode: counter
           - name: company_id
-            valuesForeignColumn: [companies, id]
-            shuffleQuality: LOW
+            valuesForeignColumn: [ companies, id ]
+            shuffleQuality: low
           - name: product
             valuesBundle: fruits
           - name: color
@@ -59,15 +59,11 @@ schemas:
           - name: quantity
             type: java.lang.Integer
             valuesRange: [100, 500]
-            shuffleQuality: MEDIUM
+            shuffleQuality: medium
           - name: quality
-            mode: ENUM
-            values:
-              - POOR
-              - AVERAGE
-              - GOOD
-              - EXCELLENT
-            defaultValue: AVERAGE
+            mode: enum
+            values: [ poor, average, good, excellent ]
+            defaultValue: average
           - name: comment
             nullCount: 20
-            valuesDynamicPattern: '(Lorem|Dolor|Amet)( (lorem|ipsum|dolor|sit|amet|consectetur|adipisicing)){2,6}\.'
+            valuesTextKind: paragraph
