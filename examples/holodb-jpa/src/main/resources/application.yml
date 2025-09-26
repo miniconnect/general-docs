@@ -1,18 +1,33 @@
 micronaut:
   application:
     name: holodb-jpa-demo
+  serialization:
+    date-format: "yyyy-MM-dd'T'HH:mm:ss"
+    time-zone: UTC
+  data:
+    pageable:
+      default-page-size: 20
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
 netty:
   default:
     allocator:
       max-order: 3
 datasources:
   default:
-    url: 'jdbc:holodb:jpa:///jpa_example'
-    username: ''
-    password: ''
-    driverClassName: 'hu.webarticum.holodb.jpa.JpaMetamodelDriver'
+    url: "${JDBC_URL:}"
+    username: "${JDBC_USER:}"
+    password: "${JDBC_PASSWORD:}"
+    driverClassName: "${JDBC_DRIVER:}"
 jpa:
   default:
     properties:
       hibernate:
         show_sql: false
+        dialect: org.hibernate.dialect.H2Dialect

@@ -1,82 +1,106 @@
 package hu.webarticum.miniconnect.generaldocs.examples.holodbjpa.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import java.util.TreeSet;
 
 import hu.webarticum.holodb.jpa.annotation.HoloColumn;
+import hu.webarticum.holodb.jpa.annotation.HoloColumnDummyTextKind;
 import hu.webarticum.holodb.jpa.annotation.HoloTable;
-import hu.webarticum.holodb.jpa.annotation.HoloVirtualColumn;
+import hu.webarticum.holodb.jpa.annotation.HoloWriteable;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "posts")
-@HoloTable(size = 20)
+@HoloTable(size = 1000, writeable = HoloWriteable.WRITEABLE)
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @Column(name = "category_id", insertable = false, updatable = false)
+    private Long categoryId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    @Column(name = "author_id", insertable = false, updatable = false)
+    private Long authorId;
+
+    @Column(name = "title", nullable = false)
+    @HoloColumn(valuesTextKind = HoloColumnDummyTextKind.TITLE)
     private String title;
 
-    @Column(nullable = false)
-    private String description;
+    @Column(name = "html_content", nullable = false)
+    @HoloColumn(valuesTextKind = HoloColumnDummyTextKind.HTML)
+    private String htmlContent;
 
     @Column(name = "tag")
     @ElementCollection
     @CollectionTable(name = "post_tags", joinColumns = { @JoinColumn(name = "post_id") })
-    @HoloTable(size = 20)
-    @HoloColumn(values = { "tag1", "tag2", "tag3" })
-    @HoloVirtualColumn(name = "virt_col", type = String.class, values = { "v1", "v2" })
+    @HoloTable(size = 1500, writeable = HoloWriteable.WRITEABLE)
+    @HoloColumn(values = { "educational", "news", "review", "tutorial" })
     private Set<String> tags;
 
-    @ElementCollection
-    @CollectionTable(name = "post_values")
-    @JoinColumn(name = "post_id")
-    @OrderBy("ord")
-    @HoloTable(size = 30)
-    @HoloVirtualColumn(name = "prop_x", type = String.class, values = { "x1", "x2", "x3" })
-    private List<EmbeddedProperties> values;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private List<PostComment> comments;
-
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "post_images", 
-        joinColumns = { @JoinColumn(name = "post_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "image_id") }
-    )
-    @HoloTable(size = 100)
-    @HoloVirtualColumn(name = "img_x", type = Integer.class, valuesRange = { 1, 100 })
-    private List<GalleryImage> images;
-
-    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Long getCategoryId() {
+        if (categoryId != null) {
+            return categoryId;
+        } else if (category != null) {
+            return category.getId();
+        } else {
+            return null;
+        }
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Long getAuthorId() {
+        if (authorId != null) {
+            return authorId;
+        } else if (author != null) {
+            return author.getId();
+        } else {
+            return null;
+        }
     }
 
     public String getTitle() {
@@ -87,44 +111,20 @@ public class Post {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getHtmlContent() {
+        return htmlContent;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
     }
 
     public Set<String> getTags() {
-        return new HashSet<>(tags);
+        return new TreeSet<>(tags);
     }
 
     public void setTags(Set<String> tags) {
-        this.tags = new HashSet<>(tags);
-    }
-
-    public List<EmbeddedProperties> getValues() {
-        return new ArrayList<>(values);
-    }
-
-    public void setValues(List<EmbeddedProperties> values) {
-        this.values = new ArrayList<>(values);
-    }
-
-    public List<PostComment> getComments() {
-        return new ArrayList<>(comments);
-    }
-
-    public void setComments(List<PostComment> comments) {
-        this.comments = new ArrayList<>(comments);
-    }
-
-    public List<GalleryImage> getImages() {
-        return new ArrayList<>(images);
-    }
-
-    public void setImages(List<GalleryImage> images) {
-        this.images = new ArrayList<>(images);
+        this.tags = new TreeSet<>(tags);
     }
 
 }

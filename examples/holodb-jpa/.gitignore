@@ -1,18 +1,9 @@
-### gradle: ###
 /build/
 /.gradle/
-
-### maven: ###
-/target/
-
-### eclipse: ###
 /bin/
 /.settings/
 /.classpath
 /.project
-
-### idea: ###
 /.idea/
-
-### vscode: ###
 /.vscode/
+/.theia/

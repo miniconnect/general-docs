@@ -1,48 +1,105 @@
 plugins {
-    id 'java-library'
-    id 'application'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'io.micronaut.application' version '3.7.10'
+    id 'io.micronaut.application' version "4.5.4"
+    id 'com.gradleup.shadow' version "8.3.7"
+    id 'io.micronaut.aot' version "4.5.4"
 }
 
-description = "HoloDB JPA mocking demo"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+description = "HoloDB REST API Demo Application"
 
 repositories {
     mavenCentral()
     mavenLocal()
 }
 
+configurations {
+    demoRuntime
+}
+
 dependencies {
-    implementation 'hu.webarticum.holodb:jpa:0.6.1-SNAPSHOT'
-    
-    implementation 'io.micronaut:micronaut-http-client'
-    implementation 'io.micronaut:micronaut-jackson-databind'
-    implementation 'io.micronaut:micronaut-validation'
+    annotationProcessor 'io.micronaut:micronaut-http-validation'
+    annotationProcessor 'io.micronaut.openapi:micronaut-openapi'
+    annotationProcessor 'io.micronaut.serde:micronaut-serde-processor'
+
+    implementation 'hu.webarticum.holodb:jpa-annotations:0.6.1-SNAPSHOT'
+
+    implementation 'io.micronaut.serde:micronaut-serde-jackson'
+    implementation 'jakarta.annotation:jakarta.annotation-api'
     implementation 'io.micronaut.data:micronaut-data-hibernate-jpa'
     implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
-    implementation 'jakarta.annotation:jakarta.annotation-api'
-    implementation 'info.picocli:picocli'
-    implementation 'io.micronaut.picocli:micronaut-picocli:4.2.1'
-    
-    annotationProcessor 'io.micronaut.data:micronaut-data-processor'
-    annotationProcessor 'io.micronaut:micronaut-http-validation'
+    implementation 'org.yaml:snakeyaml'
+
+    compileOnly 'io.micronaut:micronaut-http-client'
+    compileOnly 'io.micronaut.openapi:micronaut-openapi-annotations'
+
+    runtimeOnly 'ch.qos.logback:logback-classic'
+
+    demoRuntime 'hu.webarticum.holodb:jpa:0.6.1-SNAPSHOT'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'io.micronaut:micronaut-http-client'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 application {
     mainClass = 'hu.webarticum.miniconnect.generaldocs.examples.holodbjpa.Application'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 graalvmNative.toolchainDetection = false
+
 micronaut {
-    runtime("netty")
-    testRuntime("junit5")
+    runtime('netty')
+    testRuntime('junit5')
     processing {
         incremental(true)
-        annotations("hu.webarticum.miniconnect.generaldocs.examples.holodbjpa.*")
+        annotations('hu.webarticum.miniconnect.generaldocs.examples.holodbjpa.*')
     }
+    aot {
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+        replaceLogbackXml = true
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += [ '-parameters', '-Amicronaut.openapi.views.spec=swagger-ui.enabled=true' ]
+}
+
+tasks.named('dockerfileNative') {
+    jdkVersion = '17'
+}
+
+test {
+    useJUnitPlatform {
+        excludeTags 'smoke'
+    }
+}
+
+tasks.register('demo', JavaExec) {
+    group = 'application'
+    description = 'Runs the app with HoloDB backend'
+    classpath = sourceSets.main.runtimeClasspath + configurations.demoRuntime
+    mainClass = application.mainClass.get()
+    systemProperty 'micronaut.environments', 'demo'
+}
+
+tasks.register('smoke', Test) {
+    group = 'verification'
+    description = 'Runs smoke tests'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath + configurations.demoRuntime
+    useJUnitPlatform {
+        includeTags 'smoke'
+    }
+    systemProperty 'micronaut.environments', 'demo'
 }
