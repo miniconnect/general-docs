@@ -1,35 +1,31 @@
 # Examples
 
-## HoloDB standalone
+## HoloDB Standalone
 
-HoloDB docker project with standalone configuration.
+A Docker setup that runs HoloDB with a standalone configuration file.
 
 [Show directory](holodb-standalone)
 
-## HoloDB WikiData
+## HoloDB JPA Mock
 
-HoloDB docker project with dynamic configuration.
+A Micronaut Java application that runs entirely on mock data based on your JPA entities.
 
-Some datas are downloaded from [WikiData](https://www.wikidata.org).
+[Show directory](holodb-jpa)
 
-[Show directory](holodb-wikidata)
+## HoloDB Embedded
 
-## HoloDB customized
-
-HoloDB docker project with some integrated custom java code.
-
-[Show directory](holodb-customized)
-
-## HoloDB embeddedd
-
-Micronaut project using HoloDB as an embedded database.
-It loads the specified HoloDB configuration file at startup.
+A minimal Micronaut Java application demonstrating HoloDB in embedded mode, using an external configuration file.
 
 [Show directory](holodb-embedded)
 
-## HoloDB JPA mock
+## HoloDB Wikidata
 
-Micronaut JPA application using HoloDB as an embedded database.
-The database is created on-the-fly from jpa entities (optionally annotated with HoloDB specific annotations).
+A Docker setup that includes dynamic data retrieved from [Wikidata](https://www.wikidata.org) using a SPARQL query.
 
-[Show directory](holodb-jpa)
+[Show directory](holodb-wikidata)
+
+## HoloDB Customized
+
+A Docker setup with integrated custom Java code.
+
+[Show directory](holodb-customized)
