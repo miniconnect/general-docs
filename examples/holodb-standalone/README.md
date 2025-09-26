@@ -19,9 +19,10 @@ Start the container:
 ./start.sh
 ```
 
-You can now connect to it, for example:
+Now you can reach the server on the local port **3430**.
+There are several ways to connect to it, for example:
 
-- [via JDBC (in case of Java)](https://github.com/miniconnect/miniconnect)
+- [via JDBC (in case of Java)](https://github.com/miniconnect/miniconnect
 - [using the MiniConnect REPL](https://github.com/miniconnect/miniconnect-client)
 - [from any application using the Postgres wire protocol (experimental)](https://github.com/miniconnect/miniconnect-postgres)
 
@@ -32,8 +33,3 @@ Stop and remove the container:
 ```bash
 ./kill.sh
 ```
-
-## :memo: Notes
-
-- The service will be exposed on port **3430**.
-- The container name is stored in `name.txt` and shared between the scripts.
