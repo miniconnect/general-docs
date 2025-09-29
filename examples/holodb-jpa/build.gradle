@@ -20,7 +20,7 @@ dependencies {
     annotationProcessor 'io.micronaut.openapi:micronaut-openapi'
     annotationProcessor 'io.micronaut.serde:micronaut-serde-processor'
 
-    implementation 'hu.webarticum.holodb:jpa-annotations:0.6.1-SNAPSHOT'
+    implementation 'hu.webarticum.holodb:jpa-annotations:0.7.0'
 
     implementation 'io.micronaut.serde:micronaut-serde-jackson'
     implementation 'jakarta.annotation:jakarta.annotation-api'
@@ -33,7 +33,7 @@ dependencies {
 
     runtimeOnly 'ch.qos.logback:logback-classic'
 
-    demoRuntime 'hu.webarticum.holodb:jpa:0.6.1-SNAPSHOT'
+    demoRuntime 'hu.webarticum.holodb:jpa:0.7.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'io.micronaut:micronaut-http-client'

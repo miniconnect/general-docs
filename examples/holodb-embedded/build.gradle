@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'hu.webarticum.holodb:embedded:0.6.1-SNAPSHOT'
+    implementation 'hu.webarticum.holodb:embedded:0.7.0'
     
     /*
     implementation 'io.micronaut:micronaut-http-client'
