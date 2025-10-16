@@ -15,5 +15,5 @@ repositories {
 }
 
 dependencies {
-    implementation "hu.webarticum.holodb:spi:0.7.0"
+    implementation "hu.webarticum.holodb:spi:0.7.1"
 }

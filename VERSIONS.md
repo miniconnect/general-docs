@@ -22,10 +22,13 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://github.com/miniconnect/miniconnect-api/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
-      <td><a href="https://github.com/miniconnect/miniconnect/blob/master/CHANGELOG.md#version-070">0.7.0</a></td>
-      <td><a href="https://github.com/miniconnect/miniconnect-client/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
-      <td><a href="https://github.com/miniconnect/minibase/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
+      <td rowspan="2"><a href="https://github.com/miniconnect/miniconnect-api/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
+      <td rowspan="2"><a href="https://github.com/miniconnect/miniconnect/blob/master/CHANGELOG.md#version-070">0.7.0</a></td>
+      <td rowspan="2"><a href="https://github.com/miniconnect/miniconnect-client/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
+      <td rowspan="2"><a href="https://github.com/miniconnect/minibase/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
+      <td><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-071">0.7.1</a></td>
+    </tr>
+    <tr>
       <td><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-070">0.7.0</a></td>
     </tr>
     <tr>
