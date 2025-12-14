@@ -27,7 +27,7 @@ ansiReset="$( printf '\e[0m' )"
 
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
-    
+
     if [ -d "${projectDirectory}/.git" ] && git -C "${projectDirectory}" remote -v | grep -q -E "${urlMatch}"; then
         echo "${ansiSuccess}FOUND${ansiReset}: ${projectName}"
     elif [ -e "${projectDirectory}" ]; then

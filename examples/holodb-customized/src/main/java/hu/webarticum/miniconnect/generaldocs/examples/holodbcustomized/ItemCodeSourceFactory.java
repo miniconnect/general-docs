@@ -18,11 +18,11 @@ import hu.webarticum.holodb.spi.config.SourceFactory;
 import hu.webarticum.miniconnect.lang.LargeInteger;
 
 public class ItemCodeSourceFactory implements SourceFactory {
-    
+
     private static final String LENGTH_KEY = "length";
-    
+
     private static final int DEFAULT_LENGTH = 5;
-    
+
 
     @Override
     public Source<?> create(ColumnLocation columnLocation, TreeRandom treeRandom, LargeInteger size, Object data) {
@@ -41,7 +41,7 @@ public class ItemCodeSourceFactory implements SourceFactory {
         Permutation permutation = new ModuloPermutation(treeRandom, size);
         return new PermutatedIndexedSource<>(source, permutation);
     }
-    
+
     private int detectCodeLength(Object data) {
         if (data instanceof Map) {
             Object value = ((Map<?, ?>) data).get(LENGTH_KEY);
@@ -52,7 +52,7 @@ public class ItemCodeSourceFactory implements SourceFactory {
                 }
             }
         }
-        
+
         return DEFAULT_LENGTH;
     }
 
@@ -65,7 +65,7 @@ public class ItemCodeSourceFactory implements SourceFactory {
         }
         return new UniqueSource<>(String.class, values);
     }
-    
+
     private String createNthCode(int i, int codeLength, LargeInteger step) {
         StringBuilder resultBuilder = new StringBuilder();
         LargeInteger number = LargeInteger.of(i).multiply(step);

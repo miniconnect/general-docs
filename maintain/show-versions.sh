@@ -18,16 +18,16 @@ ansiReset="$( printf '\e[0m' )"
 
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
-    
+
     cd "${projectDirectory}" || {
         echo "Failed to cd to projectDirectory=${projectDirectory}"
         exit 1
     }
-    
+
     if ! [ -f "${projectDirectory}/gradlew" ]; then
         continue
     fi
-    
+
     projectVersion="$( ./gradlew --quiet --console=plain printVersion )"
     case "$projectVersion" in
         *-SNAPSHOT)
@@ -35,7 +35,7 @@ for projectName in $projectNames; do
         *)
             projectVersionFormat="$ansiStable" ;;
     esac
-    
+
     printf '%s%-25s%s%s%-20s%s\n' "$ansiName" "$projectName" "$ansiReset" "$projectVersionFormat" "$projectVersion" "$ansiReset"
 done
 

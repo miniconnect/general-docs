@@ -11,16 +11,16 @@ import picocli.CommandLine.Command;
 
 @Command
 public class ApplicationCommand implements Runnable {
-    
+
     private final DataSource dataSource;
-    
+
 
     @Inject
     public ApplicationCommand(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    
+
     @Override
     public void run() {
         try {
@@ -29,10 +29,10 @@ public class ApplicationCommand implements Runnable {
             e.printStackTrace();
         }
     }
-    
+
     public void runThrows() throws Exception {
         String sql = "SELECT col FROM sch.tbl";
-        
+
         Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);

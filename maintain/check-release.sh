@@ -17,12 +17,12 @@ ansiReset="$( printf '\e[0m' )"
 
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
-    
+
     cd "${projectDirectory}" || {
             echo "Failed to cd to projectDirectory=${projectDirectory}"
             exit 1
         }
-    
+
     if [ -d '.git' ]; then
         gitChangedFiles="$( git diff --name-only; git diff --staged --name-only; )"
         if [ -n "$gitChangedFiles" ]; then
@@ -34,7 +34,7 @@ for projectName in $projectNames; do
             echo "${ansiError}${projectName}: Unpushed commits${ansiReset}"
         fi
     fi
-    
+
     if [ -f 'gradlew' ]; then
         if ./gradlew clean build --quiet >/dev/null 2>/dev/null; then
             dependencyTasks="$( ./gradlew tasks --all --quiet --console=plain | grep -E '^[^> :]+:dependencies\b' | sed 's/ .*$//' )"
@@ -57,25 +57,25 @@ for projectName in $projectNames; do
             echo "${ansiError}${projectName}: Failed gradle build${ansiReset}"
         fi
     fi
-    
+
     if grep -E '^\s*FROM\s+\S+-SNAPSHOT(\s|$)' -q -R . --include='Dockerfile'; then
         echo "${ansiError}${projectName}: Some Dockerfile contains SNAPSHOT FROM${ansiReset}"
     fi
-    
+
 done
 
 exampleRootPath='general-docs/examples/'
 for examplePath in "${exampleRootPath}"*; do
     exampleDirectory="${rootDir}/${examplePath}"
-    
+
     if [ -d "$exampleDirectory" ]; then
         exampleName="$( basename "$exampleDirectory" )"
-        
+
         cd "$exampleDirectory" || {
             echo "Failed to cd to exampleDirectory=${exampleDirectory}"
             exit 1
         }
-        
+
         if [ -f "${exampleDirectory}/build.sh" ]; then
             if ! ./build.sh >/dev/null 2>/dev/null; then
                 echo "${ansiError}${exampleRootPath}${exampleName}: Failed custom build${ansiReset}"

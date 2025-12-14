@@ -26,23 +26,23 @@ report=''
 
 for projectName in $projectNames; do
     projectDirectory="${rootDir}/${projectName}"
-    
+
     cd "${projectDirectory}" || {
         echo "Failed to cd to projectDirectory=${projectDirectory}"
         exit 1
     }
-    
+
     if [ -f 'gradlew' ]; then
         version="$( ./gradlew printVersion --quiet --console=plain )"
         firstPrefix="$( printf '%-25s | %-20s |' "${projectName}" "${version}" )"
         prefix="$( printf '%-25s | %-20s |' '' '' )"
         messageFormat=' %-10s | %-20s  | %-10s |\n'
         line='- - - - - - -'
-        
+
         report="${report}${line}${nl}"
-        
+
         buildStatusOk=""
-        
+
         rm -Rf ./projects/*/bin
         if ./gradlew clean build; then
             report="${report}${ansiSuccess}${firstPrefix}$( printf "${messageFormat}" '- - -' 'Gradle build' 'SUCCESS' )${ansiReset}${nl}"
@@ -50,7 +50,7 @@ for projectName in $projectNames; do
         else
             report="${report}${ansiError}${firstPrefix}$( printf "${messageFormat}" '- - -' 'Gradle build' 'FAILED' )${ansiReset}${nl}"
         fi
-        
+
         if [ -n "${buildStatusOk}" ]; then
             if ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository; then
                 report="${report}${ansiSuccess}${prefix}$( printf "${messageFormat}" '- - -' 'Sonatype publish' 'SUCCESS' )${ansiReset}${nl}"
@@ -60,7 +60,7 @@ for projectName in $projectNames; do
         else
             report="${report}${ansiWarning}${prefix}$( printf "${messageFormat}" '- - -' 'Sonatype publish' 'SKIPPED' )${ansiReset}${nl}"
         fi
-        
+
         debTasks="$( ./gradlew tasks --all --quiet --console=plain | grep -E '^[^> :]+:buildDebPackage\b' | sed 's/ .*$//' )"
         for debTask in $debTasks; do
             subprojectName="$( echo "${debTask}" | sed -E 's/:.*$//' )"
