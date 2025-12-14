@@ -1,4 +1,4 @@
-FROM miniconnect/holodb:latest AS builder
+FROM miniconnect/holodb:latest
 
-COPY build/libs/*.jar /app/libs/
+COPY build/libs/*.jar /app/custom-libs/
 COPY config.yaml /app/config.yaml

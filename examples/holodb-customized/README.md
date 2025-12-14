@@ -4,6 +4,14 @@ This example is similar to the [standalone example](../holodb-standalone),
 however it adds some custom Java components that are wired into HoloDB through the configuration file.
 These Java components are implemented in the surrounding Gradle project (see the `src` directory).
 
+In this example project, a single custom JAR is copied into this directory of the Docker image:
+
+```
+/app/custom-libs
+```
+
+In general, all JAR files in this directory will be included in the Java classpath.
+
 ## :wrench: Build it
 
 Compile the project and build the Docker image:
