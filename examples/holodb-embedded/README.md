@@ -1,6 +1,6 @@
 # HoloDB Embedded Example
 
-A minimal Micronaut Java application demonstrating how to run HoloDB in embedded mode.  
+A minimal Micronaut Java application demonstrating how to run HoloDB in embedded mode.
 It executes a small *picocli* job that prints values retrieved from the in-memory database.
 
 ## :arrow_forward: Run it
