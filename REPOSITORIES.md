@@ -30,6 +30,10 @@ Java framework for building relational database engines exposed via the MiniConn
 
 Relational database simulator based on MiniBase, generating demo data on-the-fly, based on declarative configuration.
 
+### [phantomapi](https://github.com/miniconnect/phantomapi)
+
+A reasoned, coherent API mocker driven by OpenAPI descriptions.
+
 ## Helper repositories
 
 ### [general-docs](https://github.com/miniconnect/general-docs)

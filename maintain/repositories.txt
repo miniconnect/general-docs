@@ -1,1 +1,1 @@
-miniconnect-api miniconnect miniconnect-client minibase holodb calcite-integration miniconnect-postgres miniconnect.github.io general-docs
+miniconnect-api miniconnect miniconnect-client minibase holodb phantomapi calcite-integration miniconnect-postgres miniconnect.github.io general-docs
