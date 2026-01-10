@@ -1,5 +1,11 @@
 # Examples
 
+## PhantomAPI Swagger
+
+A Docker Compose setup running PhantomAPI based on an OpenAPI file, and a Swagger UI service for manual try-out.
+
+[Show directory](phantomapi-swagger)
+
 ## HoloDB Standalone
 
 A Docker setup that runs HoloDB with a standalone configuration file.

@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+    title: Sample API
+    description: Hello OpenAPI from PhantomAPI Core!
+    version: 0.1.0
+servers:
+  - url: '{scheme}://{host}:{port}/{path}'
+    variables:
+        scheme:
+            default: http
+            enum: [http, https]
+        host:
+            default: localhost
+            enum:
+              - localhost
+        port:
+            default: '8343'
+        path:
+            default: ''
+paths:
+    /users/{id}:
+        get:
+            description: This is an endpoint retrieving a friendly user
+            parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+    /books/{id}:
+        get:
+            description: This is an endpoint retrieving an exciting book
+            parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                    type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Book'
+components:
+    schemas:
+        User:
+            type: object
+            description: Hello User Schema!
+            required: [id, name]
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+        Book:
+            type: object
+            description: Hello Book Schema!
+            required: [id, name]
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
