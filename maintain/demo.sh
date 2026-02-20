@@ -4,8 +4,6 @@
 # Starts an instant demo on the holodb-standalone example using splitted window.
 #----------
 
-startDir="$( pwd )"
-
 selfDir="$( dirname -- "$( realpath -- "$0" )" )"
 rootDir="$( realpath -- "${selfDir}/../.." )"
 
