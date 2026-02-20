@@ -9,32 +9,16 @@ startDir="$( pwd )"
 selfDir="$( dirname -- "$( realpath -- "$0" )" )"
 rootDir="$( realpath -- "${selfDir}/../.." )"
 
-holodbDir="${rootDir}/holodb"
-cd "$holodbDir" || {
-    echo "Failed to cd to holodbDir=${holodbDir}"
+(
+    cd "${selfDir}/composite-build" &&
+    ./gradlew holodb:app:clean holodb:app:shadowJar &&
+    ./gradlew miniconnect-client:client:clean miniconnect-client:client:shadowJar;
+) || {
+    echo "Failed to build shadow JARs"
     exit 1
 }
-
-./gradlew app:jibDockerBuild
-
-exampleDir="${rootDir}/general-docs/examples/holodb-standalone"
-cd "$exampleDir" || {
-    echo "Failed to cd to holodbDir=${exampleDir}"
-    exit 1
-}
-
-./kill.sh && ./build.sh && ./start.sh
-
-# TODO: add health-check
-sleep 5
 
 tmux \
-    new-session 'docker logs holodb-example-standalone --follow' \; \
-    split-window -vb 'miniconnect-client || sleep 3'
-
-./kill.sh
-
-cd "${startDir}" || {
-    echo "Failed to cd to startDir=${startDir}"
-    exit 1
-}
+    new-session "java -jar '${rootDir}/holodb/projects/app/build/libs'/*-all.jar '${rootDir}/general-docs/examples/holodb-standalone/config.yaml'" \; \
+    split-window -vb "sleep 2 && java -jar '${rootDir}/miniconnect-client/projects/client/build/libs'/*-all.jar" \
+;
