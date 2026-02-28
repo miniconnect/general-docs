@@ -25,7 +25,7 @@ for projectName in $projectNames; do
         ./gradlew clean build
         ./gradlew -p . publishToMavenLocal --warning-mode none
 
-        if ./gradlew tasks | grep -E '\bjibDockerBuild\b' -q; then
+        if ./gradlew tasks | grep -E '^jibDockerBuild\b' -q; then
             ./gradlew jibDockerBuild
         fi
     fi
