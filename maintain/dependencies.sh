@@ -67,13 +67,48 @@ compareVersions() {
     fi
 }
 
+findLatestVersionFromCentral() {
+    group="$1"
+    name="$2"
+    url="https://search.maven.org/solrsearch/select?q=g:%22${group}%22+AND+a:%22${name}%22&rows=1&wt=json"
+    curl -s "$url" | jq -r '.response.docs[0].latestVersion // empty' 2>/dev/null
+}
+
+findLatestVersionFromMetadata() {
+    group="$1"
+    name="$2"
+    path="$( printf '%s/%s' "$group" "$name" | sed -E 's/\./\//g' )"
+    url="https://repo1.maven.org/maven2/${path}/maven-metadata.xml"
+    ( curl -f "$url" 2>/dev/null ) | grep -F '<version>' | sed -E 's/^ +<version>([^<]+)<\/version> *$/\1/' | grep -v -E '\-' | sort -r -V | head -n 1
+}
+
+isStable() {
+    version="$1"
+    if [ -z "$version" ]; then
+        return 1
+    fi
+    changed="$( echo "$version" | tr '-' '#' )"
+    if [ "$version" != "$changed" ]; then
+        return 1
+    fi
+    return 0
+}
+
+findLatestVersion() {
+    centralVersion="$( findLatestVersionFromCentral "$1" "$2" )"
+    if isStable "$centralVersion"; then
+        echo "$centralVersion"; return
+    fi
+    findLatestVersionFromMetadata "$1" "$2"
+}
+
 handleDependency() {
     dependencyString="$1"
     isDirect="$2"
     group="$( echo "$dependencyString" | cut -d ':' -f 1 )"
     name="$( echo "$dependencyString" | cut -d ':' -f 2 )"
     version="$( echo "$dependencyString" | cut -d ':' -f 3 )"
-    onlineVersion="$( curl -s "https://search.maven.org/solrsearch/select?q=g:%22${group}%22+AND+a:%22${name}%22&rows=1&wt=json" | jq -r '.response.docs[0].latestVersion // empty' 2>/dev/null )"
+    onlineVersion="$( findLatestVersion "$group" "$name" )"
     state="$( compareVersions "$version" "$onlineVersion" )"
     stateStyle="$ansiOk"
     if [ "$state" = '<' ]; then
