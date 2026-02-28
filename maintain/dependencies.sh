@@ -14,7 +14,7 @@ tmp1="$( mktemp )" || {
     echo "Failed to create tmp file 1"
     exit 1
 }
-tmp2="$( mktemp )" ||{
+tmp2="$( mktemp )" || {
     rm -f "$tmp1"
     echo "Failed to create tmp file 2"
     exit 1
