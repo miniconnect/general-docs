@@ -1,7 +1,7 @@
 plugins {
-    id 'io.micronaut.application' version "4.5.4"
-    id 'com.gradleup.shadow' version "8.3.7"
-    id 'io.micronaut.aot' version "4.5.4"
+    id 'io.micronaut.application' version '4.6.2'
+    id 'io.micronaut.aot' version '4.6.2'
+    id 'com.gradleup.shadow' version '8.3.7'
 }
 
 description = "HoloDB REST API Demo Application"
@@ -37,7 +37,7 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'io.micronaut:micronaut-http-client'
-    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testImplementation 'org.assertj:assertj-core:3.27.7'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
@@ -53,6 +53,7 @@ java {
 graalvmNative.toolchainDetection = false
 
 micronaut {
+    version('4.10.9')
     runtime('netty')
     testRuntime('junit5')
     processing {

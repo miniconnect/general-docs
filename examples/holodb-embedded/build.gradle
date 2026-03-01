@@ -1,7 +1,7 @@
 plugins {
-    id 'io.micronaut.application' version "4.5.4"
-    id 'com.gradleup.shadow' version "8.3.7"
-    id 'io.micronaut.aot' version "4.5.4"
+    id 'io.micronaut.application' version '4.6.2'
+    id 'io.micronaut.aot' version '4.6.2'
+    id 'com.gradleup.shadow' version '8.3.7'
 }
 
 description = "HoloDB embedded demo"
@@ -24,7 +24,7 @@ dependencies {
     implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
     implementation 'org.yaml:snakeyaml'
     implementation 'info.picocli:picocli'
-    implementation 'io.micronaut.picocli:micronaut-picocli:4.2.1'
+    implementation 'io.micronaut.picocli:micronaut-picocli'
     implementation 'hu.webarticum.holodb:embedded:0.7.2-SNAPSHOT'
 
     compileOnly 'io.micronaut:micronaut-http-client'
@@ -45,6 +45,7 @@ java {
 graalvmNative.toolchainDetection = false
 
 micronaut {
+    version('4.10.9')
     runtime('netty')
     testRuntime('junit5')
     processing {
