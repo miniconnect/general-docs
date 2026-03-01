@@ -55,7 +55,7 @@ compareVersions() {
             echo '<'; return
         elif [ -n "$left2" ]; then
             echo '>'; return
-        elif [ "$right1" '<' "$right2" ]; then
+        elif expr "$right1" '<' "$right2" ; then
             echo '>'; return
         else
             echo '<'; return
