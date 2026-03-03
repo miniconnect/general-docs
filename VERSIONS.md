@@ -25,7 +25,14 @@
   </thead>
   <tbody>
     <tr>
-      <td valign="top" rowspan="8">---</td>
+    <td valign="top" rowspan="9">---</td>
+      <td valign="top"><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-080">0.8.0</a></td>
+      <td valign="top"><a href="https://github.com/miniconnect/minibase/blob/master/CHANGELOG.md#version-050">0.5.0</a></td>
+      <td valign="top"><a href="https://github.com/miniconnect/miniconnect-client/blob/master/CHANGELOG.md#version-050">0.5.0</a></td>
+      <td valign="top"><a href="https://github.com/miniconnect/miniconnect/blob/master/CHANGELOG.md#version-080">0.8.0</a></td>
+      <td valign="top"><a href="https://github.com/miniconnect/miniconnect-api/blob/master/CHANGELOG.md#version-050">0.5.0</a></td>
+    </tr>
+    <tr>
       <td valign="top"><a href="https://github.com/miniconnect/holodb/blob/master/CHANGELOG.md#version-071">0.7.1</a></td>
       <td valign="top" rowspan="2"><a href="https://github.com/miniconnect/minibase/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
       <td valign="top" rowspan="2"><a href="https://github.com/miniconnect/miniconnect-client/blob/master/CHANGELOG.md#version-040">0.4.0</a></td>
