@@ -1,4 +1,4 @@
-# General docs for holodb and its related projects
+# General docs for HoloDB and and other MiniConnect projects
 
 ## Table of contents
 
