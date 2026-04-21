@@ -35,3 +35,9 @@ A Docker setup that includes dynamic data retrieved from [Wikidata](https://www.
 A Docker setup with integrated custom Java code.
 
 [Show directory](holodb-customized)
+
+## Benchmark Animation
+
+A visual benchmark for comparing MiniBase/HoloDB with other engines.
+
+[Show directory](benchmark-animation)

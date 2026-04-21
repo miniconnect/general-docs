@@ -1,0 +1,30 @@
+seed: 1234
+schemas:
+  - name: simulation
+    tables:
+      - name: particles
+        size: 50000
+        columns:
+          - name: id
+            mode: counter
+          - name: type_id
+            valuesForeignColumn: [ type, id ]
+          - name: x
+            valuesRange: [ -400, 400 ]
+          - name: y
+            valuesRange: [ -400, 400 ]
+          - name: z
+            valuesRange: [ -400, 400 ]
+      - name: type
+        size: 500
+        columns:
+          - name: id
+            mode: counter
+          - name: serial
+            distributionQuality: low
+            valuesPattern: '[A-F]{2}\-\d{3}'
+          - name: color
+            valuesPattern: '#[0-9A-F]{6}'
+          - name: size
+            mode: enum
+            values: [ SMALL, NORMAL, BIG ]
