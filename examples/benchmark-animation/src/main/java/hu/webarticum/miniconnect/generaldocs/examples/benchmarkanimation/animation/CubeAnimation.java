@@ -126,8 +126,8 @@ public class CubeAnimation implements Animation {
                             ELSE 5
                         END * ?) AS radius,
                     t.color AS color
-                FROM simulation.particles p
-                LEFT JOIN simulation.type t ON p.type_id = t.id
+                FROM particles p
+                LEFT JOIN type t ON p.type_id = t.id
                 WHERE p.x BETWEEN ? AND ?
                   AND p.y BETWEEN ? AND ?
                   AND p.z BETWEEN ? AND ?

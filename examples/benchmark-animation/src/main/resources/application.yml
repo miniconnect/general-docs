@@ -8,7 +8,7 @@ datasources:
   default:
     order: 1
     description: HoloDB embedded
-    url: 'jdbc:holodb:embedded:resource://holodb.yaml'
+    url: 'jdbc:holodb:embedded:resource://holodb.yaml?schema=simulation'
     username: ''
     password: ''
     driverClassName: 'hu.webarticum.holodb.embedded.HoloEmbeddedDriver'
