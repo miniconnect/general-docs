@@ -46,7 +46,10 @@ public class ApplicationCommand implements Runnable {
                     datasourceDefinitions,
                     animations,
                     (datasourceDefinition, animation) ->
-                            AnimationWindow.open(resolveConnection(datasourceDefinition), animation)
+                            AnimationWindow.open(
+                                    animation,
+                                    resolveConnection(datasourceDefinition),
+                                    datasourceDefinition.description())
             );
         });
     }

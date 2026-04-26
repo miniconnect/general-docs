@@ -2,7 +2,6 @@ package hu.webarticum.miniconnect.generaldocs.examples.benchmarkanimation.animat
 
 import java.awt.Graphics2D;
 import java.io.Closeable;
-import java.io.IOException;
 
 public interface FrameRenderer extends Closeable {
 
