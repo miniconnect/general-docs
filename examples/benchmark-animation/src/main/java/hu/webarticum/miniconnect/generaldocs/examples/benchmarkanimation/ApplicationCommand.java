@@ -21,18 +21,11 @@ import picocli.CommandLine.Command;
 )
 public class ApplicationCommand implements Runnable {
 
-    private final List<DatasourceDefinition> datasourceDefinitions;
     private final List<Animation> animations;
     private final BeanContext beanContext;
 
-    public ApplicationCommand(
-            BeanContext beanContext,
-            List<DatasourceDefinition> datasourceDefinitions,
-            List<Animation> animations) {
+    public ApplicationCommand(BeanContext beanContext, List<Animation> animations) {
         this.beanContext = beanContext;
-        this.datasourceDefinitions = datasourceDefinitions.stream()
-                .sorted(Comparator.comparingInt(DatasourceDefinition::getOrder))
-                .toList();
         this.animations = animations.stream()
                 .sorted(Comparator.comparingInt(Animation::order))
                 .toList();
@@ -42,26 +35,18 @@ public class ApplicationCommand implements Runnable {
     public void run() {
         SwingUtilities.invokeLater(() -> {
             SwingSetup.configureLookAndFeel();
-            IntroWindow.open(
-                    datasourceDefinitions,
-                    animations,
-                    (datasourceDefinition, animation) ->
-                            AnimationWindow.open(
-                                    animation,
-                                    resolveConnection(datasourceDefinition),
-                                    datasourceDefinition.description())
-            );
+            IntroWindow.open(animations, AnimationWindow::open, this::resolveConnection);
         });
     }
 
-    private Connection resolveConnection(DatasourceDefinition datasourceDefinition) {
+    private Connection resolveConnection(String connectionName) {
         DataSource dataSource;
-        if ("default".equals(datasourceDefinition.name())) {
+        if (connectionName.equals("default")) {
             dataSource = beanContext.getBean(DataSource.class);
         } else {
             dataSource = beanContext.getBean(
                     DataSource.class,
-                    Qualifiers.byName(datasourceDefinition.name()));
+                    Qualifiers.byName(connectionName));
         }
 
         try {

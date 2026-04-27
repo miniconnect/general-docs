@@ -27,8 +27,8 @@ public class AnimationWindow extends JFrame {
 
     private final Connection connection;
 
-    private AnimationWindow(Animation animation, Connection connection, String connectionDescription) {
-        super(animation.description() + " :: " + connectionDescription);
+    private AnimationWindow(Animation animation, Connection connection) {
+        super(animation.description() + " :: " + connection);
         this.connection = connection;
 
         AnimationCanvas canvas = new AnimationCanvas(connection, animation);
@@ -52,8 +52,8 @@ public class AnimationWindow extends JFrame {
         });
     }
 
-    static void open(Animation animation, Connection connection, String connectionDescription) {
-        AnimationWindow frame = new AnimationWindow(animation, connection, connectionDescription);
+    static void open(Animation animation, Connection connection) {
+        AnimationWindow frame = new AnimationWindow(animation, connection);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

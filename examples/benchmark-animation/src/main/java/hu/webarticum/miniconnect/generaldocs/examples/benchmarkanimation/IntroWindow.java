@@ -6,8 +6,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,30 +19,55 @@ import javax.swing.JPanel;
 
 public class IntroWindow extends JFrame {
 
+    private enum DatasourceType {
+
+        HOLODB("HoloDB embedded"),
+        CUSTOM("Other JDBC connection")
+        ;
+    
+        private final String label;
+
+        private DatasourceType(String label) {
+            this.label = label;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+
+    }
+
     private static final int DEFAULT_WIDTH = 550;
     private static final int DEFAULT_HEIGHT = 270;
     private static final int COMBO_BOX_WIDTH = 320;
     private static final int BUTTON_WIDTH = 210;
     private static final int BUTTON_HEIGHT = 35;
 
-    private final JComboBox<DatasourceDefinition> datasourceComboBox;
+    private final BiConsumer<Animation, Connection> action;
+    private final Function<String, Connection> namedConnectionResolver;
+
+    private final JComboBox<DatasourceType> datasourceTypeComboBox;
     private final JComboBox<Animation> animationComboBox;
     private final JButton startButton;
 
     private IntroWindow(
-            List<DatasourceDefinition> datasourceDefinitions,
             List<Animation> animations,
-            BiConsumer<DatasourceDefinition, Animation> action) {
+            BiConsumer<Animation, Connection> action,
+            Function<String, Connection> namedConnectionResolver) {
         super("Benchmark Animation");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        this.action = action;
+        this.namedConnectionResolver = namedConnectionResolver;
 
         JPanel panel = new JPanel(new GridBagLayout());
         setContentPane(panel);
 
-        datasourceComboBox = new JComboBox<>(datasourceDefinitions.toArray(DatasourceDefinition[]::new));
-        Dimension comboBoxPreferredSize = datasourceComboBox.getPreferredSize();
+        datasourceTypeComboBox = new JComboBox<>(DatasourceType.values());
+        Dimension comboBoxPreferredSize = datasourceTypeComboBox.getPreferredSize();
         comboBoxPreferredSize.width = COMBO_BOX_WIDTH;
-        datasourceComboBox.setPreferredSize(comboBoxPreferredSize);
+        datasourceTypeComboBox.setPreferredSize(comboBoxPreferredSize);
 
         animationComboBox = new JComboBox<>(animations.toArray(Animation[]::new));
         Dimension animationComboBoxPreferredSize = animationComboBox.getPreferredSize();
@@ -53,10 +80,10 @@ public class IntroWindow extends JFrame {
         startButtonPreferredSize.height = BUTTON_HEIGHT;
         startButton.setPreferredSize(startButtonPreferredSize);
         startButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        startButton.addActionListener(event -> onStartClicked(action));
+        startButton.addActionListener(event -> onStartClicked());
 
         addLabel(panel, "Database engine:", 0);
-        addInput(panel, datasourceComboBox, 0);
+        addInput(panel, datasourceTypeComboBox, 0);
         addLabel(panel, "Animation to run:", 1);
         addInput(panel, animationComboBox, 1);
 
@@ -69,10 +96,10 @@ public class IntroWindow extends JFrame {
     }
 
     public static void open(
-            List<DatasourceDefinition> datasourceDefinitions,
             List<Animation> animations,
-            BiConsumer<DatasourceDefinition, Animation> action) {
-        IntroWindow frame = new IntroWindow(datasourceDefinitions, animations, action);
+            BiConsumer<Animation, Connection> action,
+            Function<String, Connection> namedConnectionResolver) {
+        IntroWindow frame = new IntroWindow(animations, action, namedConnectionResolver);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -102,12 +129,19 @@ public class IntroWindow extends JFrame {
         panel.add(input, inputConstraints);
     }
 
-    private void onStartClicked(BiConsumer<DatasourceDefinition, Animation> action) {
-        DatasourceDefinition datasourceDefinition = (DatasourceDefinition) datasourceComboBox.getSelectedItem();
+    private void onStartClicked() {
+        DatasourceType datasourceType = (DatasourceType) datasourceTypeComboBox.getSelectedItem();
         Animation animation = (Animation) animationComboBox.getSelectedItem();
+        if (datasourceType == DatasourceType.HOLODB) {
+            showAnimation(namedConnectionResolver.apply("default"), animation);
+        } else if (datasourceType == DatasourceType.CUSTOM) {
+            JdbcSetupDialog.open(this, c -> showAnimation(c, animation));
+        }
+    }
 
+    private void showAnimation(Connection connection, Animation animation) {
         dispose();
-        action.accept(datasourceDefinition, animation);
+        action.accept(animation, connection);
     }
 
 }
